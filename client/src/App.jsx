@@ -25,7 +25,7 @@ const salesData = [
 function App() {
   return (
     <div className="min-h-screen bg-gray-100 p-8">
-      <h1 className="text-4xl font-bold mb-8">Time2Deal Dashboard</h1>
+      <h1 className="text-4xl font-bold mb-8"><strong>Welcome to Time2Deal,</strong></h1>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
         <Card>
