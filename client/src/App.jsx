@@ -25,7 +25,7 @@ const salesData = [
 function App() {
   return (
     <div className="min-h-screen bg-gray-100 p-8">
-      <h1 className="text-4xl font-bold mb-8"><strong>Welcome to Time2Deal,</strong></h1>
+      <h1 className="text-4xl font-bold mb-8"><strong>Welcome to Time2Deal</strong></h1>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
         <Card>
@@ -54,7 +54,7 @@ function App() {
             <BarChart2 className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">$28,500</div>
+            <div className="text-2xl font-bold">Rs 28,500</div>
             <p className="text-xs text-muted-foreground">+20.1% from last month</p>
           </CardContent>
         </Card>
