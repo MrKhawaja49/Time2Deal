@@ -1,152 +1,74 @@
-import React from "react"
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from "recharts"
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "./components/ui/card"
-import { Button } from "./components/ui/button"
-import { Activity, AlertCircle, BarChart2, Package } from "lucide-react"
-
-// Mock data
-const inventoryData = [
-  { name: "Aspirin", stock: 1000, expiring: 50 },
-  { name: "Ibuprofen", stock: 800, expiring: 30 },
-  { name: "Paracetamol", stock: 1200, expiring: 40 },
-  { name: "Amoxicillin", stock: 500, expiring: 20 },
-  { name: "Omeprazole", stock: 600, expiring: 25 },
-]
-
-const salesData = [
-  { name: "Jan", sales: 4000 },
-  { name: "Feb", sales: 3000 },
-  { name: "Mar", sales: 5000 },
-  { name: "Apr", sales: 4500 },
-  { name: "May", sales: 6000 },
-  { name: "Jun", sales: 5500 },
-]
+import { useState, useEffect } from "react"
+import { BrowserRouter as Router, Route, Routes, Navigate, useNavigate } from "react-router-dom"
+import { Sidebar } from "./components/Sidebar"
+import Dashboard from "./pages/Dashboard"
+import ExpiredMedicines from "./pages/ExpiredMedicines"
+import Login from "./pages/Login"
+import Signup from "./pages/Signup"
+import { isAuthenticated } from './utils/auth'
 
 function App() {
+  const [sidebarOpen, setSidebarOpen] = useState(false)
+  const [auth, setAuth] = useState(isAuthenticated())
+
+  useEffect(() => {
+    const checkAuth = () => {
+      setAuth(isAuthenticated())
+    }
+
+    window.addEventListener('storage', checkAuth)
+    return () => window.removeEventListener('storage', checkAuth)
+  }, [])
+
   return (
-    <div className="min-h-screen bg-gray-100 p-8">
-      <h1 className="text-4xl font-bold mb-8"><strong>Welcome to Time2Deal</strong></h1>
+    <Router>
+      <AppContent auth={auth} setAuth={setAuth} sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
+    </Router>
+  )
+}
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Total Inventory</CardTitle>
-            <Package className="h-4 w-4 text-muted-foreground" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">4,100</div>
-            <p className="text-xs text-muted-foreground">items in stock</p>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Expiring Soon</CardTitle>
-            <AlertCircle className="h-4 w-4 text-muted-foreground" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">165</div>
-            <p className="text-xs text-muted-foreground">items expiring in 30 days</p>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Monthly Sales</CardTitle>
-            <BarChart2 className="h-4 w-4 text-muted-foreground" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">Rs 28,500</div>
-            <p className="text-xs text-muted-foreground">+20.1% from last month</p>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Active Discounts</CardTitle>
-            <Activity className="h-4 w-4 text-muted-foreground" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">24</div>
-            <p className="text-xs text-muted-foreground">across 120 products</p>
-          </CardContent>
-        </Card>
-      </div>
+function AppContent({ auth, setAuth, sidebarOpen, setSidebarOpen }) {
+  const navigate = useNavigate()
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-        <Card>
-          <CardHeader>
-            <CardTitle>Inventory Overview</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <ResponsiveContainer width="100%" height={300}>
-              <BarChart data={inventoryData}>
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="name" />
-                <YAxis />
-                <Tooltip />
-                <Legend />
-                <Bar dataKey="stock" fill="#8884d8" />
-                <Bar dataKey="expiring" fill="#82ca9d" />
-              </BarChart>
-            </ResponsiveContainer>
-          </CardContent>
-        </Card>
+  useEffect(() => {
+    if (auth) {
+      navigate('/')
+    }
+  }, [auth, navigate])
 
-        <Card>
-          <CardHeader>
-            <CardTitle>Sales Analytics</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <ResponsiveContainer width="100%" height={300}>
-              <BarChart data={salesData}>
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="name" />
-                <YAxis />
-                <Tooltip />
-                <Legend />
-                <Bar dataKey="sales" fill="#8884d8" />
-              </BarChart>
-            </ResponsiveContainer>
-          </CardContent>
-        </Card>
-      </div>
+  return (
+    <div className="min-h-screen bg-gray-100">
+      {auth && <Sidebar isOpen={sidebarOpen} setIsOpen={setSidebarOpen} setAuth={setAuth} />}
 
-      <div className="mt-8">
-        <Card>
-          <CardHeader>
-            <CardTitle>Expiring Items</CardTitle>
-            <CardDescription>Items expiring within the next 30 days</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <table className="w-full">
-              <thead>
-                <tr>
-                  <th className="text-left">Product</th>
-                  <th className="text-left">Stock</th>
-                  <th className="text-left">Expiry Date</th>
-                  <th className="text-left">Action</th>
-                </tr>
-              </thead>
-              <tbody>
-                {inventoryData.map((item, index) => (
-                  <tr key={index}>
-                    <td>{item.name}</td>
-                    <td>{item.expiring}</td>
-                    <td>{new Date(Date.now() + Math.random() * 30 * 24 * 60 * 60 * 1000).toLocaleDateString()}</td>
-                    <td>
-                      <Button size="sm">Apply Discount</Button>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </CardContent>
-          <CardFooter>
-            <Button>View All Expiring Items</Button>
-          </CardFooter>
-        </Card>
+      <div className={auth ? "lg:ml-64 transition-all duration-200 ease-in-out" : ""}>
+        <Routes>
+          <Route path="/login" element={auth ? <Navigate to="/" replace /> : <Login setAuth={setAuth} />} />
+          <Route path="/signup" element={auth ? <Navigate to="/" replace /> : <Signup />} />
+          <Route
+            path="/"
+            element={
+              auth ? (
+                <Dashboard sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
+              ) : (
+                <Navigate to="/login" replace />
+              )
+            }
+          />
+          <Route
+            path="/expired-medicines"
+            element={
+              auth ? (
+                <ExpiredMedicines />
+              ) : (
+                <Navigate to="/login" replace />
+              )
+            }
+          />
+          {/* Add other protected routes here */}
+        </Routes>
       </div>
     </div>
   )
 }
 
 export default App
-
