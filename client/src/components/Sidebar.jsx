@@ -1,26 +1,8 @@
 import { Link } from "react-router-dom"
-import { LayoutDashboard, Package, PackageMinus, Percent, Clock, Settings, LogOut } from 'lucide-react'
+import { LayoutDashboard, Package, PackageMinus, Percent, Clock, Settings, LogOut } from "lucide-react"
 import { cn } from "@/lib/utils"
-import { logout } from "@/utils/auth"
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogTrigger,
-} from "@/components/ui/alert-dialog"
-import { Button } from "@/components/ui/button"
 
-export function Sidebar({ isOpen, setIsOpen, setAuth }) {
-  const handleLogout = () => {
-    logout()
-    setAuth(false)
-  }
-
+export function Sidebar({ isOpen, setIsOpen }) {
   return (
     <>
       {/* Mobile overlay */}
@@ -33,39 +15,72 @@ export function Sidebar({ isOpen, setIsOpen, setAuth }) {
           "lg:translate-x-0", // Always show on large screens
         )}
       >
-        <div className="flex flex-col h-full">
-          <div className="flex-grow">
+        <div className="space-y-4">
+          <div className="py-2">
             <h2 className="text-xl font-bold mb-4 px-4">Time2Deal</h2>
             <nav className="space-y-2">
-              <SidebarLink to="/" icon={LayoutDashboard} label="Dashboard" onClick={() => setIsOpen(false)} />
-              <SidebarLink to="/inventory" icon={Package} label="Inventory" onClick={() => setIsOpen(false)} />
-              <SidebarLink to="/out-of-stock" icon={PackageMinus} label="Out Of Stock" onClick={() => setIsOpen(false)} />
-              <SidebarLink to="/discounts" icon={Percent} label="Discounts" onClick={() => setIsOpen(false)} />
-              <SidebarLink to="/expired-medicines" icon={Clock} label="Expired Medicines" onClick={() => setIsOpen(false)} />
+              <Link
+                to="/"
+                className="flex items-center space-x-3 px-4 py-2 text-gray-700 hover:bg-gray-300 rounded-lg transition-colors"
+                onClick={() => setIsOpen(false)}
+              >
+                <LayoutDashboard className="h-5 w-5" />
+                <span>Dashboard</span>
+              </Link>
+              <Link
+                to="/inventory"
+                className="flex items-center space-x-3 px-4 py-2 text-gray-700 hover:bg-gray-300 rounded-lg transition-colors"
+                onClick={() => setIsOpen(false)}
+              >
+                <Package className="h-5 w-5" />
+                <span>Inventory</span>
+              </Link>
+              <Link
+                to="/out-of-stock"
+                className="flex items-center space-x-3 px-4 py-2 text-gray-700 hover:bg-gray-300 rounded-lg transition-colors"
+                onClick={() => setIsOpen(false)}
+              >
+                <PackageMinus className="h-5 w-5" />
+                <span>Out Of Stock</span>
+              </Link>
+              <Link
+                to="/discounts"
+                className="flex items-center space-x-3 px-4 py-2 text-gray-700 hover:bg-gray-300 rounded-lg transition-colors"
+                onClick={() => setIsOpen(false)}
+              >
+                <Percent className="h-5 w-5" />
+                <span>Discounts</span>
+              </Link>
+              <Link
+                to="/expired-medicines"
+                className="flex items-center space-x-3 px-4 py-2 text-gray-700 hover:bg-gray-300 rounded-lg transition-colors"
+                onClick={() => setIsOpen(false)}
+              >
+                <Clock className="h-5 w-5" />
+                <span>Expired Medicines</span>
+              </Link>
             </nav>
           </div>
-          <div className="mt-auto">
-            <SidebarLink to="/settings" icon={Settings} label="Settings" onClick={() => setIsOpen(false)} />
-            <AlertDialog>
-              <AlertDialogTrigger asChild>
-                <Button variant="ghost" className="flex items-center space-x-3 px-4 py-2 text-gray-700 hover:bg-gray-300 rounded-lg transition-colors w-full justify-start">
-                  <LogOut className="h-5 w-5" />
-                  <span>Logout</span>
-                </Button>
-              </AlertDialogTrigger>
-              <AlertDialogContent>
-                <AlertDialogHeader>
-                  <AlertDialogTitle>Are you sure you want to logout?</AlertDialogTitle>
-                  <AlertDialogDescription>
-                    This action will log you out of your account.
-                  </AlertDialogDescription>
-                </AlertDialogHeader>
-                <AlertDialogFooter>
-                  <AlertDialogCancel>Cancel</AlertDialogCancel>
-                  <AlertDialogAction onClick={handleLogout}>Logout</AlertDialogAction>
-                </AlertDialogFooter>
-              </AlertDialogContent>
-            </AlertDialog>
+
+          <div className="absolute bottom-8 space-y-2 w-[calc(100%-2rem)]">
+            <Link
+              to="/settings"
+              className="flex items-center space-x-3 px-4 py-2 text-gray-700 hover:bg-gray-300 rounded-lg transition-colors"
+              onClick={() => setIsOpen(false)}
+            >
+              <Settings className="h-5 w-5" />
+              <span>Settings</span>
+            </Link>
+            <button
+              className="flex items-center space-x-3 px-4 py-2 text-gray-700 hover:bg-gray-300 rounded-lg transition-colors w-full"
+              onClick={() => {
+                console.log("Logout clicked")
+                setIsOpen(false)
+              }}
+            >
+              <LogOut className="h-5 w-5" />
+              <span>Logout</span>
+            </button>
           </div>
         </div>
       </aside>
@@ -73,15 +88,3 @@ export function Sidebar({ isOpen, setIsOpen, setAuth }) {
   )
 }
 
-function SidebarLink({ to, icon: Icon, label, onClick }) {
-  return (
-    <Link
-      to={to}
-      className="flex items-center space-x-3 px-4 py-2 text-gray-700 hover:bg-gray-300 rounded-lg transition-colors"
-      onClick={onClick}
-    >
-      <Icon className="h-5 w-5" />
-      <span>{label}</span>
-    </Link>
-  )
-}

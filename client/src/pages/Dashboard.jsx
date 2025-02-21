@@ -1,9 +1,10 @@
-import { Bell, Search, Menu } from 'lucide-react'
-import { Button } from "@/components/ui/button"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Bell, Search, Menu } from 'lucide-react';
+import { Button } from "@/components/ui/button";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 export default function Dashboard({ sidebarOpen, setSidebarOpen }) {
+  console.log("Dashboard is rendering");
   return (
     <div className="p-8">
       {/* Header */}
@@ -37,7 +38,7 @@ export default function Dashboard({ sidebarOpen, setSidebarOpen }) {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
         <Card className="bg-green-100">
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium">out of stock</CardTitle>
+            <CardTitle className="text-sm font-medium">Out of Stock</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="text-4xl font-bold">890</div>
@@ -80,16 +81,16 @@ export default function Dashboard({ sidebarOpen, setSidebarOpen }) {
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="bg-gray-600 text-white p-4 rounded-lg">
-              <p>Name : panadol</p>
-              <p>Batch :78678</p>
+              <p>Name: panadol</p>
+              <p>Batch: 78678</p>
             </div>
             <div className="bg-gray-200 p-4 rounded-lg">
-              <p>Name : citizen</p>
-              <p>Batch :78679</p>
+              <p>Name: citizen</p>
+              <p>Batch: 78679</p>
             </div>
             <div className="bg-gray-200 p-4 rounded-lg">
-              <p>Name : citizen</p>
-              <p>Batch :78679</p>
+              <p>Name: citizen</p>
+              <p>Batch: 78679</p>
             </div>
           </CardContent>
         </Card>
@@ -100,16 +101,16 @@ export default function Dashboard({ sidebarOpen, setSidebarOpen }) {
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="bg-gray-200 p-4 rounded-lg">
-              <p>Name : amoxilin</p>
-              <p>Batch :78690</p>
+              <p>Name: amoxilin</p>
+              <p>Batch: 78690</p>
             </div>
             <div className="bg-gray-200 p-4 rounded-lg">
-              <p>Name : demo1</p>
-              <p>Batch :78690</p>
+              <p>Name: demo1</p>
+              <p>Batch: 78690</p>
             </div>
           </CardContent>
         </Card>
       </div>
     </div>
-  )
+  );
 }
