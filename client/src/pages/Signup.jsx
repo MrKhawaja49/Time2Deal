@@ -136,6 +136,15 @@ export default function Signup({ setAuth }) {
                   Sign Up
                 </Button>
               </form>
+              <div className="text-center">
+                <Button
+                  variant="link"
+                  className="text-orange-500 hover:text-orange-400"
+                  onClick={() => navigate("/login")}
+                >
+                  Already have an account? Login
+                </Button>
+              </div>
             </div>
           </div>
         </div>
