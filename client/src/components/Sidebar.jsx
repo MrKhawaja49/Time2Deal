@@ -1,8 +1,30 @@
+"use client"
+
 import { Link } from "react-router-dom"
 import { LayoutDashboard, Package, PackageMinus, Percent, Clock, Settings, LogOut } from "lucide-react"
 import { cn } from "@/lib/utils"
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog"
+import { useState } from "react"
+import { logout } from "@/utils/auth"
 
-export function Sidebar({ isOpen, setIsOpen }) {
+export function Sidebar({ isOpen, setIsOpen, setAuth }) {
+  const [showLogoutDialog, setShowLogoutDialog] = useState(false)
+
+  const handleLogout = () => {
+    logout()
+    setAuth(false)
+    setIsOpen(false)
+  }
+
   return (
     <>
       {/* Mobile overlay */}
@@ -73,10 +95,7 @@ export function Sidebar({ isOpen, setIsOpen }) {
             </Link>
             <button
               className="flex items-center space-x-3 px-4 py-2 text-gray-700 hover:bg-gray-300 rounded-lg transition-colors w-full"
-              onClick={() => {
-                console.log("Logout clicked")
-                setIsOpen(false)
-              }}
+              onClick={() => setShowLogoutDialog(true)}
             >
               <LogOut className="h-5 w-5" />
               <span>Logout</span>
@@ -84,6 +103,19 @@ export function Sidebar({ isOpen, setIsOpen }) {
           </div>
         </div>
       </aside>
+
+      <AlertDialog open={showLogoutDialog} onOpenChange={setShowLogoutDialog}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Are you sure you want to logout?</AlertDialogTitle>
+            <AlertDialogDescription>You will need to login again to access your account.</AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogAction onClick={handleLogout}>Logout</AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </>
   )
 }

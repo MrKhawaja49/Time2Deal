@@ -6,11 +6,11 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 
 // Mock data for expired medicines
 const mockExpiredMedicines = [
-  { id: 1, name: 'Aspirin', batchNumber: 'A001', expiryDate: '2023-05-15', quantity: 100 },
-  { id: 2, name: 'Ibuprofen', batchNumber: 'I002', expiryDate: '2023-06-20', quantity: 50 },
-  { id: 3, name: 'Paracetamol', batchNumber: 'P003', expiryDate: '2023-07-10', quantity: 75 },
-  { id: 4, name: 'Amoxicillin', batchNumber: 'AM004', expiryDate: '2023-08-05', quantity: 30 },
-  { id: 5, name: 'Omeprazole', batchNumber: 'O005', expiryDate: '2023-09-01', quantity: 60 },
+  { id: 1, DrugName: 'Aspirin', batchId: 'A001', expiryDate: '2023-05-15', quantity: 100 },
+  { id: 2, DrugName: 'Ibuprofen', batchId: 'I002', expiryDate: '2023-06-20', quantity: 50 },
+  { id: 3, DrugName: 'Paracetamol', batchId: 'P003', expiryDate: '2023-07-10', quantity: 75 },
+  { id: 4, DrugName: 'Amoxicillin', batchId: 'AM004', expiryDate: '2023-08-05', quantity: 30 },
+  { id: 5, DrugName: 'Omeprazole', batchId: 'O005', expiryDate: '2023-09-01', quantity: 60 },
 ]
 
 export default function ExpiredMedicines() {
@@ -21,7 +21,7 @@ export default function ExpiredMedicines() {
     e.preventDefault()
     const filteredMedicines = mockExpiredMedicines.filter(medicine => 
       medicine.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      medicine.batchNumber.toLowerCase().includes(searchTerm.toLowerCase())
+      medicine.batchId.toLowerCase().includes(searchTerm.toLowerCase())
     )
     setExpiredMedicines(filteredMedicines)
   }
@@ -51,8 +51,8 @@ export default function ExpiredMedicines() {
           <Table>
             <TableHeader>
               <TableRow>
-                <TableHead>Name</TableHead>
-                <TableHead>Batch Number</TableHead>
+                <TableHead>Drug Name</TableHead>
+                <TableHead>Batch Id</TableHead>
                 <TableHead>Expiry Date</TableHead>
                 <TableHead>Quantity</TableHead>
               </TableRow>
@@ -60,8 +60,8 @@ export default function ExpiredMedicines() {
             <TableBody>
               {expiredMedicines.map((medicine) => (
                 <TableRow key={medicine.id}>
-                  <TableCell>{medicine.name}</TableCell>
-                  <TableCell>{medicine.batchNumber}</TableCell>
+                  <TableCell>{medicine.DrugName}</TableCell>
+                  <TableCell>{medicine.batchId}</TableCell>
                   <TableCell>{medicine.expiryDate}</TableCell>
                   <TableCell>{medicine.quantity}</TableCell>
                 </TableRow>
